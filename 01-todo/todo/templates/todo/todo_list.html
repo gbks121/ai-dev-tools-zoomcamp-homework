@@ -1,0 +1,35 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+<div style="text-align: right; margin-bottom: 1rem;">
+    <a href="{% url 'todo_create' %}" class="btn btn-primary">+ New Task</a>
+</div>
+
+<div class="card">
+    {% for todo in todos %}
+    <div class="todo-item">
+        <div class="todo-content">
+            <div class="todo-title {% if todo.is_resolved %}resolved{% endif %}">
+                {{ todo.title }}
+            </div>
+            <div class="todo-meta">
+                {% if todo.due_date %}Due: {{ todo.due_date }}{% endif %}
+                {% if todo.description %}
+                <p style="margin: 0.25rem 0;">{{ todo.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="actions">
+            <a href="{% url 'todo_update' todo.pk %}" class="btn btn-primary"
+                style="padding: 0.5rem 1rem; font-size: 0.875rem;">Edit</a>
+            <a href="{% url 'todo_delete' todo.pk %}" class="btn btn-danger"
+                style="padding: 0.5rem 1rem; font-size: 0.875rem;">Delete</a>
+        </div>
+    </div>
+    {% empty %}
+    <div style="text-align: center; padding: 2rem; color: #6b7280;">
+        No tasks yet. Create one to get started!
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
